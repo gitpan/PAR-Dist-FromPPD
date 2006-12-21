@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use PAR::Dist;
 use LWP::Simple ();
@@ -62,7 +62,7 @@ sub ppd_to_par {
 
     _diag "Looking for PPD.";
 
-    my $ppd_text = _get_ppd_content($ppd_uri);
+    my $ppd_text = get_ppd_content($ppd_uri);
 
     _diag "Parsing PPD XML.";
     my $parser = XML::Parser->new(Style => 'Tree');
