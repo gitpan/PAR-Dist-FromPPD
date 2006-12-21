@@ -4,6 +4,8 @@ use 5.006;
 use strict;
 use warnings;
 
+our $VERSION = '0.02';
+
 use PAR::Dist;
 use LWP::Simple ();
 use XML::Parser;
@@ -19,7 +21,7 @@ require Exporter;
 our @ISA = qw(Exporter);
 
 our %EXPORT_TAGS = ( 'all' => [ qw(
-    ppd_to_par
+    ppd_to_par get_ppd_content
 ) ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
@@ -28,7 +30,6 @@ our @EXPORT = qw(
     ppd_to_par
 );
 
-our $VERSION = '0.01';
 
 our $VERBOSE = 0;
 
@@ -278,7 +279,7 @@ sub ppd_to_par {
 
 
 
-sub _get_ppd_content {
+sub get_ppd_content {
     my $ppd_uri = shift;
     my $ppd_text;
         if ($ppd_uri =~ /^(?:https?|ftp):\/\//) {
@@ -473,12 +474,12 @@ It parses the PPD document to extract the required
 information and then uses PAR::Dist to create a .par archive from it.
 
 Please note that this code I<works for me> but hasn't been tested
-to full extend.
+to full extent.
 
 =head2 EXPORT
 
 By default, the C<ppd_to_par> subroutine is exported to the callers
-namespace.
+namespace. C<get_ppd_content> will be exported on demand.
 
 =head1 SUBROUTINES
 
@@ -514,6 +515,16 @@ perl version of an implementation. If both C<selectperl> and C<selectarch>
 are present, C<selectperl> operates on the implementations matched by
 C<selectarch>. That means C<selectarch> takes precedence.
 
+=head2 get_ppd_content
+
+First argument must be an URI string for the PPD.
+(Supported are C<file://> URIs and whatever L<LWP>
+supports.)
+
+Fetches the PPD file and returns its contents as a string.
+
+C<die()>s on error.
+
 =head1 SEE ALSO
 
 The L<PAR::Dist> module is used to create .par distributions from an
@@ -522,7 +533,7 @@ distributions from the CPAN.
 
 PAR has a mailing list, <par@perl.org>, that you can write to; send an empty mail to <par-subscribe@perl.org> to join the list and participate in the discussion.
 
-Please send bug reports to <bug-par-dist-fromcpan@rt.cpan.org>.
+Please send bug reports to <bug-par-dist-fromppd@rt.cpan.org>.
 
 The official PAR website may be of help, too: http://par.perl.org
 
